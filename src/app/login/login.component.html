@@ -1,0 +1,61 @@
+<div
+  class="login-container"
+  [ngStyle]="{
+    'background-image':
+      selectedRole === 'employee'
+        ? 'url(\employee.jpg)'
+        : 'url(\admin.jpg)'
+  }"
+>
+    <div class="login-box shadow p-4 rounded">
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" >
+        
+        <!-- Role Selection Dropdown -->
+        <div class="mb-3">
+          <label for="role" class="form-label">Select Role</label>
+          <select 
+            class="form-select" 
+            id="role" 
+            name="role" 
+            [(ngModel)]="selectedRole" >
+            <option value="admin">Admin</option>
+            <option value="employee">Employee</option>
+          </select>
+        </div>
+        
+        <!-- Email Input Field -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="text" 
+            id="email" 
+            ngModel name="username" 
+            class="form-control" 
+            placeholder="Enter your email"
+            required>
+          <div *ngIf="loginForm.submitted && loginForm.controls['email']?.invalid" class="text-danger">
+            Please enter a valid email.
+          </div>
+        </div>
+        
+        <!-- Password Input Field [(ngModel)]="password"-->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            ngModel name="password" 
+            class="form-control" 
+            placeholder="Enter your password" 
+            
+            required>
+          <div *ngIf="loginForm.submitted && loginForm.controls['password']?.invalid" class="text-danger">
+            Password is required.
+          </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
