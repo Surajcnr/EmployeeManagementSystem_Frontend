@@ -1,1 +1,28 @@
-<p>feedback works!</p>
+<div class="feedback-bg">
+  <div class="container">
+    <h2 class="mb-4 text-center">Feedbacks</h2>
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
+        <thead>
+            <tr class="gold-header">
+          <th>Feedback ID</th>
+          <th>From Employee ID</th>
+          <th>To Employee ID</th>
+          <th>Feedback Type</th>
+          <th>Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fb of feedbacks" class="table-row">
+          <td>{{ fb.feedbackId }}</td>
+          <td>{{ fb.fromEmployeeId }}</td>
+          <td>{{ fb.toEmployeeId }}</td>
+          <td>{{ fb.feedbackType }}</td>
+          <td>{{ fb.comments }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

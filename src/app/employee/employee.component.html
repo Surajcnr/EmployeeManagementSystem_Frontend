@@ -1,1 +1,30 @@
-<p>employee works!</p>
+<div class="background">
+    <div class="container  ">
+        <h2 class="mb-4 text-center">Employee Profiles</h2>
+        <div *ngIf="loading" class="text-center">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+        <table *ngIf="!loading"
+            class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn ">
+            <thead>
+                <tr class="gold-header">
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Contact Details</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                </tr>
+              </thead>
+            <tbody>
+                <tr *ngFor="let emp of employees" class="table-row">
+                    <td>{{ emp.employeeId }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.contactDetails }}</td>
+                    <td>{{ emp.department }}</td>
+                    <td>{{ emp.role }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

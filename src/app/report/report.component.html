@@ -1,1 +1,28 @@
-<p>report works!</p>
+<div class="report-bg">
+  <div class="container">
+    <h2 class="mb-4 text-center">Performance Reports</h2>
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
+        <thead>
+            <tr class="gold-header">
+          <th>Report ID</th>
+          <th>Employee ID</th>
+          <th>Report Date</th>
+          <th>Performance Summary</th>
+          <th>Feedback Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reports" class="table-row">
+          <td>{{ report.reportId }}</td>
+          <td>{{ report.employeeId }}</td>
+          <td>{{ report.reportDate | date:'mediumDate' }}</td>
+          <td>{{ report.performanceSummary }}</td>
+          <td>{{ report.feedbackSummary }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

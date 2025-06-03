@@ -1,0 +1,40 @@
+.report-bg {
+  min-height: 100vh;
+  background: url('/about-5.webp') no-repeat center center fixed;
+  background-size: cover;
+  display: block;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.table-row {
+  transition: background 0.3s, transform 0.2s;
+}
+.table-row:hover {
+  background: #f1f1f1;
+  transform: scale(1.01);
+}
+.table {
+  animation: fadeIn 0.8s;
+}
+.gold-header th {
+    background: radial-gradient(ellipse at center, #f5e78d 25%, #95642b);
+    color: #000000;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #bfa100;
+  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
