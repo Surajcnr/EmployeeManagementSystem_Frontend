@@ -14,11 +14,30 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'http://localhost:9091/employeeprofiles/fetchAll'; // Update with your backend endpoint
+  private apiUrl = 'http://localhost:9091/employeeprofiles/fetchAll'; 
 
   constructor(private http: HttpClient) {}
 
   getAllEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl);
+  }
+
+  registerEmployee(employee: Employee) {
+    return this.http.post(this.apiUrl.replace('/fetchAll', '/save'), employee);
+  }
+
+  getEmployeeById(employeeId: number) {
+    return this.http.get<Employee>(`http://localhost:9091/employeeprofiles/fetchById/${employeeId}`);
+  }
+
+  deleteEmployee(employeeId: number) {
+    return this.http.delete(`http://localhost:9091/employeeprofiles/deleteById/${employeeId}`);
+  }
+
+  updateEmployee(employee: Employee) {
+    return this.http.put(
+      `http://localhost:9091/employeeprofiles/update/${employee.employeeId}`,
+      employee
+    );
   }
 }

@@ -1,30 +1,132 @@
 <div class="background">
-    <div class="container  ">
-        <h2 class="mb-4 text-center">Employee Profiles</h2>
-        <div *ngIf="loading" class="text-center">
-            <div class="spinner-border text-primary" role="status"></div>
+  <div class="container">
+    <div class="d-flex align-items-start mb-3">
+      <div class="d-flex flex-column me-3" style="min-width:220px;">
+        <button class="btn btn-warning fw-bold mb-3 py-3 px-5 fs-4" (click)="toggleRegisterCard()">
+          Register New Employee
+        </button>
+        <button class="btn btn-primary fw-bold py-3 px-5 fs-4" (click)="toggleSearchCard()">
+          Search
+        </button>
+      </div>
+      <div *ngIf="showRegisterCard" class="card p-4 shadow-sm register-card me-3">
+        <h5 class="mb-3">Register Employee</h5>
+        <form (ngSubmit)="registerEmployee()" #empForm="ngForm">
+          <div class="row">
+            <div class="mb-2 col-md-4">
+              <label class="form-label">Employee ID</label>
+              <input type="number" class="form-control" required [(ngModel)]="newEmployee.employeeId" name="employeeId">
+            </div>
+            <div class="mb-2 col-md-4">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" required [(ngModel)]="newEmployee.name" name="name">
+            </div>
+            <div class="mb-2 col-md-4">
+              <label class="form-label">Department</label>
+              <select class="form-select" required [(ngModel)]="newEmployee.department" name="department">
+                <option value="" disabled>Select Department</option>
+                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-2 col-md-4">
+              <label class="form-label">Role</label>
+              <select class="form-select" required [(ngModel)]="newEmployee.role" name="role">
+                <option value="" disabled>Select Role</option>
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              </select>
+            </div>
+            <div class="mb-2 col-md-8">
+              <label class="form-label">Contact Details</label>
+              <input type="text" class="form-control" required [(ngModel)]="newEmployee.contactDetails" name="contactDetails">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success w-100 mt-2">Register</button>
+        </form>
+      </div>
+      <div *ngIf="showSearchCard" class="card p-4 shadow-sm register-card">
+        <h5 class="mb-3">Search Employee</h5>
+        <form (ngSubmit)="searchEmployee()" #searchForm="ngForm">
+          <div class="row align-items-end">
+            <div class="mb-2 col-md-8">
+              <label class="form-label">Employee ID</label>
+              <input type="number" class="form-control" required [(ngModel)]="searchEmployeeId" name="searchEmployeeId">
+            </div>
+            <div class="mb-2 col-md-4">
+              <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="searchedEmployee">
+          <form (ngSubmit)="updateEmployee()" #updateForm="ngForm">
+            <div class="row mt-3">
+              <div class="mb-2 col-md-4">
+                <label class="form-label">Employee ID</label>
+                <input type="number" class="form-control" [(ngModel)]="searchedEmployee.employeeId" name="editEmployeeId" [readonly]="!editMode">
+              </div>
+              <div class="mb-2 col-md-4">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" [(ngModel)]="searchedEmployee.name" name="editName" [readonly]="!editMode">
+              </div>
+              <div class="mb-2 col-md-4">
+                <label class="form-label">Department</label>
+                <select class="form-select" [(ngModel)]="searchedEmployee.department" name="editDepartment" [disabled]="!editMode">
+                  <option value="" disabled>Select Department</option>
+                  <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-2 col-md-4">
+                <label class="form-label">Role</label>
+                <select class="form-select" [(ngModel)]="searchedEmployee.role" name="editRole" [disabled]="!editMode">
+                  <option value="" disabled>Select Role</option>
+                  <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                </select>
+              </div>
+              <div class="mb-2 col-md-8">
+                <label class="form-label">Contact Details</label>
+                <input type="text" class="form-control" [(ngModel)]="searchedEmployee.contactDetails" name="editContactDetails" [readonly]="!editMode">
+              </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button type="button" class="btn btn-danger" (click)="deleteEmployee(searchedEmployee.employeeId)">Delete</button>
+              <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="editMode = true">Update</button>
+              <button *ngIf="editMode" type="submit" class="btn btn-success">Save</button>
+              <button *ngIf="editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+            </div>
+          </form>
         </div>
-        <table *ngIf="!loading"
-            class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn ">
-            <thead>
-                <tr class="gold-header">
-                    <th>Employee ID</th>
-                    <th>Name</th>
-                    <th>Contact Details</th>
-                    <th>Department</th>
-                    <th>Role</th>
-                </tr>
-              </thead>
-            <tbody>
-                <tr *ngFor="let emp of employees" class="table-row">
-                    <td>{{ emp.employeeId }}</td>
-                    <td>{{ emp.name }}</td>
-                    <td>{{ emp.contactDetails }}</td>
-                    <td>{{ emp.department }}</td>
-                    <td>{{ emp.role }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+        <div class="mt-2 text-muted small">
+        </div>
+      </div>
     </div>
-
+    <h2 class="mb-4 text-center">Employee Profiles</h2>
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <table *ngIf="!loading"
+      class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
+      <thead>
+        <tr class="gold-header">
+          <th><span class="gradient-text">Employee ID</span></th>
+          <th><span class="gradient-text">Name</span></th>
+          <th><span class="gradient-text">Contact Details</span></th>
+          <th><span class="gradient-text">Department</span></th>
+          <th><span class="gradient-text">Role</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees" class="table-row">
+          <td>{{ emp.employeeId }}</td>
+          <td>{{ emp.name }}</td>
+          <td>{{ emp.contactDetails }}</td>
+          <td>{{ emp.department }}</td>
+          <td>{{ emp.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
