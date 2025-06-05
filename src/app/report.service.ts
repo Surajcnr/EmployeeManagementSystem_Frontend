@@ -14,17 +14,23 @@ export interface Report {
   providedIn: 'root'
 })
 export class ReportService {
-  private apiUrl = 'http://localhost:9091/reports/fetchAll'; // Update with your backend endpoint
+  private apiUrl = 'http://localhost:9091/reports';
 
   constructor(private http: HttpClient) {}
 
   getAllReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(this.apiUrl);
+    return this.http.get<Report[]>(`${this.apiUrl}/fetchAll`);
   }
-  generateReportByEmployeeId(employeeId: number) {
-    return this.http.post<Report>(
-      `http://localhost:9091/reports/save`,{employeeId}
-      
-    );
+
+  generateReportByEmployeeId(employeeId: number): Observable<Report> {
+    return this.http.post<Report>(`${this.apiUrl}/save`, { employeeId });
+  }
+
+  searchReportById(reportId: number): Observable<Report> {
+    return this.http.get<Report>(`${this.apiUrl}/fetchById/${reportId}`);
+  }
+
+  deleteReport(reportId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/deleteById/${reportId}`);
   }
 }

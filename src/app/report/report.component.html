@@ -1,6 +1,7 @@
 <div class="report-bg">
   <div class="container">
-    <div class="d-flex align-items-start mb-3">
+    <div class="d-flex align-items-start flex-wrap mb-3">
+      <!-- Generate Report Button & Card -->
       <button class="btn btn-success fw-bold me-3 py-3 px-5 fs-5" (click)="toggleGenerateCard()">
         Generate Report
       </button>
@@ -19,7 +20,33 @@
         </form>
         <div *ngIf="generateError" class="text-danger mt-2">{{ generateError }}</div>
       </div>
+      
+      <!-- Search Report Button & Card -->
+      <button class="btn btn-primary fw-bold me-3 py-3 px-5 fs-5" (click)="toggleSearchCard()">
+        Search Report
+      </button>
+      <div *ngIf="showSearchCard" class="card p-4 shadow-sm generate-card">
+        <h5 class="mb-3">Search Report</h5>
+        <form (ngSubmit)="searchReport()" #searchForm="ngForm">
+          <div class="mb-2">
+            <label class="form-label">Report ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="searchReportId" name="searchReportId">
+          </div>
+          <button type="submit" class="btn btn-info w-100">Search</button>
+        </form>
+        <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+        <div *ngIf="searchResult" class="mt-3">
+          <h6>Report Details</h6>
+          <p><strong>Report ID:</strong> {{ searchResult.reportId }}</p>
+          <p><strong>Employee ID:</strong> {{ searchResult.employeeId }}</p>
+          <p><strong>Report Date:</strong> {{ searchResult.reportDate | date:'mediumDate' }}</p>
+          <p><strong>Performance Summary:</strong> {{ searchResult.performanceSummary }}</p>
+          <p><strong>Feedback Summary:</strong> {{ searchResult.feedbackSummary }}</p>
+          <button class="btn btn-danger" (click)="deleteReport(searchResult.reportId)">Delete Report</button>
+        </div>
+      </div>
     </div>
+
     <h2 class="mb-4 text-center">Performance Reports</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
