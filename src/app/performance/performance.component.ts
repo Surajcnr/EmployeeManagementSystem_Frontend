@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PerformanceService, PerformanceReview } from '../performance.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-performance',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './performance.component.html',
   styleUrl: './performance.component.css'
 })
@@ -13,9 +14,33 @@ export class PerformanceComponent implements OnInit {
   reviews: PerformanceReview[] = [];
   loading = true;
 
+  showReviewCard = true;
+  showSearchCard = false;
+  editMode = false;
+
+  // For new review
+  newReview = {
+    employeeId: null,
+    managerId: null,
+    date: '',
+    performanceScore: null,
+    feedback: ''
+  };
+
+  // For search
+  searchReviewId: number | null = null;
+  searchedReview: PerformanceReview | null = null;
+  originalReview: PerformanceReview | null = null;
+  searchError: string = '';
+
   constructor(private performanceService: PerformanceService) {}
 
   ngOnInit() {
+    this.getReviews();
+  }
+
+  getReviews() {
+    this.loading = true;
     this.performanceService.getAllReviews().subscribe({
       next: (data) => {
         this.reviews = data;
@@ -25,5 +50,101 @@ export class PerformanceComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  toggleReviewCard() {
+    this.showReviewCard = !this.showReviewCard;
+    if (this.showReviewCard) this.showSearchCard = false;
+  }
+
+  toggleSearchCard() {
+    this.showSearchCard = !this.showSearchCard;
+    if (this.showSearchCard) this.showReviewCard = false;
+    this.searchedReview = null;
+    this.searchError = '';
+    this.editMode = false;
+  }
+
+  submitReview() {
+    if (this.newReview.date) {
+      const d = new Date(this.newReview.date);
+      this.newReview.date = d.toISOString().slice(0, 10);
+    }
+    this.performanceService.addReview(this.newReview).subscribe({
+      next: () => {
+        this.getReviews();
+        this.resetForm();
+        this.showReviewCard = false;
+        alert('Performance review submitted!');
+      },
+      error: () => {
+        alert('Failed to submit performance review!');
+      }
+    });
+  }
+
+  resetForm() {
+    this.newReview = {
+      employeeId: null,
+      managerId: null,
+      date: '',
+      performanceScore: null,
+      feedback: ''
+    };
+  }
+
+  searchReview() {
+    this.searchedReview = null;
+    this.searchError = '';
+    this.editMode = false;
+    if (!this.searchReviewId) return;
+    this.performanceService.getReviewById(this.searchReviewId).subscribe({
+      next: (review) => {
+        this.searchedReview = { ...review };
+        this.originalReview = { ...review };
+      },
+      error: () => {
+        this.searchError = 'Performance review not found.';
+      }
+    });
+  }
+
+  enableEdit() {
+    this.editMode = true;
+  }
+
+  updateReview() {
+    if (this.searchedReview) {
+      this.performanceService.updateReview(this.searchedReview).subscribe({
+        next: () => {
+          this.editMode = false;
+          this.getReviews();
+        },
+        error: () => {
+          alert('Update failed!');
+        }
+      });
+    }
+  }
+
+  cancelEdit() {
+    if (this.originalReview) {
+      this.searchedReview = { ...this.originalReview };
+    }
+    this.editMode = false;
+  }
+
+  deleteReview(reviewId: number) {
+    if (confirm('Are you sure you want to delete this performance review?')) {
+      this.performanceService.deleteReview(reviewId).subscribe({
+        next: () => {
+          this.searchedReview = null;
+          this.getReviews();
+        },
+        error: () => {
+          alert('Delete failed!');
+        }
+      });
+    }
   }
 }

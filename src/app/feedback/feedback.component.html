@@ -1,5 +1,88 @@
 <div class="feedback-bg">
   <div class="container">
+    <div class="d-flex align-items-start mb-3">
+      <button class="btn btn-warning fw-bold mb-3 py-3 px-5 fs-4 me-3" (click)="toggleFeedbackCard()">
+        Enter Feedback
+      </button>
+      <button class="btn btn-primary fw-bold mb-3 py-3 px-5 fs-4" (click)="toggleSearchCard()">
+        Search Feedback
+      </button>
+    </div>
+
+    <!-- Search Feedback Card -->
+    <div *ngIf="showSearchCard" class="card p-4 shadow-sm mb-4 register-card">
+      <h5 class="mb-3">Search Feedback</h5>
+      <form (ngSubmit)="searchFeedback()" #searchForm="ngForm">
+        <div class="row align-items-end">
+          <div class="mb-2 col-md-8">
+            <label class="form-label">Feedback ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="searchFeedbackId" name="searchFeedbackId">
+          </div>
+          <div class="mb-2 col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+      <div *ngIf="searchedFeedback">
+        <form (ngSubmit)="updateFeedback()" #updateForm="ngForm">
+          <div class="row mt-3">
+            <div class="mb-2 col-md-3">
+              <label class="form-label">From Employee ID</label>
+              <input type="number" class="form-control" [(ngModel)]="searchedFeedback.fromEmployeeId" name="editFromEmployeeId" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-3">
+              <label class="form-label">To Employee ID</label>
+              <input type="number" class="form-control" [(ngModel)]="searchedFeedback.toEmployeeId" name="editToEmployeeId" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-3">
+              <label class="form-label">Feedback Type</label>
+              <select class="form-select" [(ngModel)]="searchedFeedback.feedbackType" name="editFeedbackType" [disabled]="!editMode">
+                <option value="" disabled>Select Type</option>
+                <option *ngFor="let type of feedbackTypes" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+            <div class="mb-2 col-md-3">
+              <label class="form-label">Comments</label>
+              <input type="text" class="form-control" [(ngModel)]="searchedFeedback.comments" name="editComments" [readonly]="!editMode">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button type="button" class="btn btn-danger" (click)="deleteFeedback(searchedFeedback.feedbackId)">Delete</button>
+            <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="enableEdit()">Update</button>
+            <button *ngIf="editMode" type="submit" class="btn btn-success">Save</button>
+            <button *ngIf="editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="showFeedbackCard" class="card p-4 shadow-sm mb-4">
+      <h5 class="mb-3">Enter Feedback</h5>
+      <form (ngSubmit)="submitFeedback()" #feedbackForm="ngForm">
+        <div class="row">
+          <div class="mb-2 col-md-3">
+            <label class="form-label">From Employee ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="newFeedback.fromEmployeeId" name="fromEmployeeId">
+          </div>
+          <div class="mb-2 col-md-3">
+            <label class="form-label">To Employee ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="newFeedback.toEmployeeId" name="toEmployeeId">
+          </div>
+          <div class="mb-2 col-md-3">
+            <label class="form-label">Feedback Type</label>
+            <select class="form-select" required [(ngModel)]="newFeedback.feedbackType" name="feedbackType">
+              <option value="" disabled>Select Type</option>
+              <option *ngFor="let type of feedbackTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="mb-2 col-md-3">
+            <label class="form-label">Comments</label>
+            <input type="text" class="form-control" required [(ngModel)]="newFeedback.comments" name="comments">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success w-100 mt-2">Submit</button>
+      </form>
+    </div>
     <h2 class="mb-4 text-center">Feedbacks</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>

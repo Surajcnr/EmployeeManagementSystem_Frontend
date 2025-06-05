@@ -1,12 +1,32 @@
 <div class="report-bg">
   <div class="container">
+    <div class="d-flex align-items-start mb-3">
+      <button class="btn btn-success fw-bold me-3 py-3 px-5 fs-5" (click)="toggleGenerateCard()">
+        Generate Report
+      </button>
+      <div *ngIf="showGenerateCard" class="card p-4 shadow-sm generate-card">
+        <h5 class="mb-3">Generate Report</h5>
+        <form (ngSubmit)="generateReport()" #genForm="ngForm">
+          <div class="row">
+            <div class="mb-2 col-md-8">
+              <label class="form-label">Employee ID</label>
+              <input type="number" class="form-control" required [(ngModel)]="generateEmployeeId" name="generateEmployeeId">
+            </div>
+            <div class="mb-2 col-md-4 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary w-100">Generate</button>
+            </div>
+          </div>
+        </form>
+        <div *ngIf="generateError" class="text-danger mt-2">{{ generateError }}</div>
+      </div>
+    </div>
     <h2 class="mb-4 text-center">Performance Reports</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
     <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
-        <thead>
-            <tr class="gold-header">
+      <thead>
+        <tr class="gold-header">
           <th>Report ID</th>
           <th>Employee ID</th>
           <th>Report Date</th>

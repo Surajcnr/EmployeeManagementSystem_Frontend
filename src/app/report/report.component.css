@@ -38,3 +38,15 @@
   text-align: center;
   vertical-align: middle;
 }
+.generate-card {
+  min-width: 350px;
+  max-width: 600px;
+  width: 100%;
+  background: rgba(255,255,255,0.97);
+  border-radius: 12px;
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  align-self: flex-start;
+}

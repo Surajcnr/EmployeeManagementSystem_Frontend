@@ -21,4 +21,10 @@ export class ReportService {
   getAllReports(): Observable<Report[]> {
     return this.http.get<Report[]>(this.apiUrl);
   }
+  generateReportByEmployeeId(employeeId: number) {
+    return this.http.post<Report>(
+      `http://localhost:9091/reports/save`,{employeeId}
+      
+    );
+  }
 }

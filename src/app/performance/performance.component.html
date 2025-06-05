@@ -1,5 +1,93 @@
 <div class="performance-bg">
   <div class="container">
+    <div class="d-flex align-items-start mb-3">
+      <button class="btn btn-warning fw-bold mb-3 py-3 px-5 fs-4 me-3" (click)="toggleReviewCard()">
+        Enter Performance Review
+      </button>
+      <button class="btn btn-primary fw-bold mb-3 py-3 px-5 fs-4" (click)="toggleSearchCard()">
+        Search Performance Review
+      </button>
+    </div>
+
+    <!-- Search Performance Review Card -->
+    <div *ngIf="showSearchCard" class="card p-4 shadow-sm mb-4 register-card">
+      <h5 class="mb-3">Search Performance Review</h5>
+      <form (ngSubmit)="searchReview()" #searchForm="ngForm">
+        <div class="row align-items-end">
+          <div class="mb-2 col-md-8">
+            <label class="form-label">Review ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="searchReviewId" name="searchReviewId">
+          </div>
+          <div class="mb-2 col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+      <div *ngIf="searchedReview">
+        <form (ngSubmit)="updateReview()" #updateForm="ngForm">
+          <div class="row mt-3">
+            <div class="mb-2 col-md-2">
+              <label class="form-label">Employee ID</label>
+              <input type="number" class="form-control" [(ngModel)]="searchedReview.employeeId" name="editEmployeeId" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-2">
+              <label class="form-label">Manager ID</label>
+              <input type="number" class="form-control" [(ngModel)]="searchedReview.managerId" name="editManagerId" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-3">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-control" [(ngModel)]="searchedReview.date" name="editDate" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-2">
+              <label class="form-label">Performance Score</label>
+              <input type="number" class="form-control" min="0" max="100" [(ngModel)]="searchedReview.performanceScore" name="editPerformanceScore" [readonly]="!editMode">
+            </div>
+            <div class="mb-2 col-md-3">
+              <label class="form-label">Feedback</label>
+              <input type="text" class="form-control" [(ngModel)]="searchedReview.feedback" name="editFeedback" [readonly]="!editMode">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button type="button" class="btn btn-danger" (click)="deleteReview(searchedReview.reviewId)">Delete</button>
+            <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="enableEdit()">Update</button>
+            <button *ngIf="editMode" type="submit" class="btn btn-success">Save</button>
+            <button *ngIf="editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Enter Performance Review Card -->
+    <div *ngIf="showReviewCard" class="card p-4 shadow-sm mb-4">
+      <h5 class="mb-3">Enter Performance Review</h5>
+      <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+        <div class="row">
+          <div class="mb-2 col-md-2">
+            <label class="form-label">Employee ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="newReview.employeeId" name="employeeId">
+          </div>
+          <div class="mb-2 col-md-2">
+            <label class="form-label">Manager ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="newReview.managerId" name="managerId">
+          </div>
+          <div class="mb-2 col-md-3">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" required [(ngModel)]="newReview.date" name="date">
+          </div>
+          <div class="mb-2 col-md-2">
+            <label class="form-label">Performance Score</label>
+            <input type="number" class="form-control" required min="0" max="100" [(ngModel)]="newReview.performanceScore" name="performanceScore">
+          </div>
+          <div class="mb-2 col-md-3">
+            <label class="form-label">Feedback</label>
+            <input type="text" class="form-control" required [(ngModel)]="newReview.feedback" name="feedback">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success w-100 mt-2">Submit</button>
+      </form>
+    </div>
+
     <h2 class="mb-4 text-center">Performance Reviews</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
@@ -20,7 +108,7 @@
           <td>{{ review.reviewId }}</td>
           <td>{{ review.employeeId }}</td>
           <td>{{ review.managerId }}</td>
-          <td>{{ review.date | date:'mediumDate' }}</td>
+          <td>{{ review.date | date:'yyyy-MM-dd' }}</td>
           <td>{{ review.performanceScore }}</td>
           <td>{{ review.feedback }}</td>
         </tr>
