@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeService, Employee } from '../employee.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoginService } from '../login.service'; // Import your login service
 
 @Component({
   selector: 'app-employee',
@@ -17,6 +18,7 @@ export class EmployeeComponent implements OnInit {
   showSearchCard = false;
   editMode = false;
   originalEmployee: Employee | null = null;
+  registerPassword: string = '';
 
   // Form model
   newEmployee: Employee = {
@@ -41,7 +43,10 @@ export class EmployeeComponent implements OnInit {
     'Administrator', 'Analyst', 'Team Lead'
   ];
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private loginService: LoginService // Inject login service
+  ) {}
 
   ngOnInit() {
     this.getEmployees();
@@ -91,10 +96,26 @@ export class EmployeeComponent implements OnInit {
   registerEmployee() {
     this.employeeService.registerEmployee(this.newEmployee).subscribe({
       next: () => {
-        this.getEmployees();
-        this.resetForm();
+        // After employee registration, register for login
+        const loginUser = {
+          name: this.newEmployee.name,
+          password: this.registerPassword,
+          email: this.newEmployee.contactDetails, // changed from contactDetails to email
+          roles: 'employee' // changed from role to roles (array)
+        };
+        this.loginService.register(loginUser).subscribe({
+          next: () => {
+            this.getEmployees();
+            this.resetForm();
+            this.registerPassword = '';
+            alert('Employee registered and user created!');
+          },
+          error: () => {
+            alert('Employee registered, but user creation failed!');
+          }
+        });
       },
-      error: (err) => {
+      error: () => {
         alert('Registration failed!');
       }
     });
@@ -108,6 +129,7 @@ export class EmployeeComponent implements OnInit {
       role: '',
       contactDetails: ''
     };
+    this.registerPassword = '';
   }
 
   deleteEmployee(employeeId: number) {

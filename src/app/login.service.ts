@@ -14,6 +14,10 @@ export class LoginService {
     console.log(user)
     return this.client.post(this.path,user,{responseType:'text'})
   }
+
+  register(user: { name: string; password: string; email: string; roles: string }) {
+    return this.client.post('http://localhost:9091/auth/new', user, { responseType: 'text' });
+  }
 }
 export class LoginUser{
   name:string;

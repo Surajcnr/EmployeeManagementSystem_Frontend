@@ -37,9 +37,13 @@
                 <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
               </select>
             </div>
-            <div class="mb-2 col-md-8">
+            <div class="mb-2 col-md-4">
               <label class="form-label">Contact Details</label>
               <input type="text" class="form-control" required [(ngModel)]="newEmployee.contactDetails" name="contactDetails">
+            </div>
+            <div class="mb-2 col-md-4">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" required [(ngModel)]="registerPassword" name="registerPassword">
             </div>
           </div>
           <button type="submit" class="btn btn-success w-100 mt-2">Register</button>
