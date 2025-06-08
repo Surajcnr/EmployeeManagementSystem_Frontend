@@ -22,6 +22,12 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
+  // mail="http://localhost:9091/notifications/sender/";
+
+  // sendMail(mailId: string, subject:string,body:string): Observable<any> {
+  //   return this.http.get(`${this.mail}${mailId}/${subject}/${body}`,);
+  // }
+
   registerEmployee(employee: Employee) {
     return this.http.post(this.apiUrl.replace('/fetchAll', '/save'), employee);
   }

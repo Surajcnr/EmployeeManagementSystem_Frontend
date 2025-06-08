@@ -1,10 +1,10 @@
 <div class="performance-bg">
   <div class="container">
-    <div class="d-flex align-items-start mb-3">
-      <button class="btn btn-warning fw-bold mb-3 py-3 px-5 fs-4 me-3" (click)="toggleReviewCard()">
+    <div class="d-flex justify-content-start mb-3">
+      <button *ngIf="!isEmployee" class="component-button me-3" (click)="toggleReviewCard()">
         Enter Performance Review
       </button>
-      <button class="btn btn-primary fw-bold mb-3 py-3 px-5 fs-4" (click)="toggleSearchCard()">
+      <button class="component-button" (click)="toggleSearchCard()">
         Search Performance Review
       </button>
     </div>
@@ -49,10 +49,10 @@
             </div>
           </div>
           <div class="d-flex justify-content-end gap-2 mt-3">
-            <button type="button" class="btn btn-danger" (click)="deleteReview(searchedReview.reviewId)">Delete</button>
-            <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="enableEdit()">Update</button>
-            <button *ngIf="editMode" type="submit" class="btn btn-success">Save</button>
-            <button *ngIf="editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+            <button *ngIf="!isEmployee" type="button" class="btn btn-danger" (click)="deleteReview(searchedReview.reviewId)">Delete</button>
+            <button *ngIf="!isEmployee" type="button" class="btn btn-warning" (click)="enableEdit()">Update</button>
+            <button *ngIf="!isEmployee && editMode" type="submit" class="btn btn-success">Save</button>
+            <button *ngIf="!isEmployee && editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
           </div>
         </form>
       </div>
@@ -93,8 +93,8 @@
       <div class="spinner-border text-primary" role="status"></div>
     </div>
     <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
-        <thead>
-            <tr class="gold-header">
+      <thead>
+        <tr class="gold-header">
           <th>Review ID</th>
           <th>Employee ID</th>
           <th>Manager ID</th>

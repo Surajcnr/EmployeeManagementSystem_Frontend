@@ -1,6 +1,6 @@
 .performance-bg {
   min-height: 100vh;
-  background: url('/bg-image.jpg') no-repeat center center fixed;
+  background: url('/aerial.jpg') no-repeat center center fixed;
   background-size: cover;
   display: block;
 }
@@ -37,4 +37,43 @@
 .table td {
   text-align: center;
   vertical-align: middle;
+}
+
+/* Common button styles for all components */
+.component-button {
+  background: radial-gradient(ellipse at center, #f5e78d 25%, #95642b);
+  color: #000;
+  font-size: 1rem; /* Normal size */
+  font-weight: bold;
+  padding: 10px 20px; /* Adjust padding for a balanced look */
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.component-button:hover {
+  transform: scale(1.05); /* Slight zoom effect */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  background: radial-gradient(ellipse at center, #95642b 25%, #f5e78d); /* Reverse gradient on hover */
+}
+
+.component-button:active {
+  transform: scale(0.95); /* Slight shrink effect on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.component-button {
+  animation: fadeInButton 0.5s ease-in-out; /* Smooth fade-in effect */
 }

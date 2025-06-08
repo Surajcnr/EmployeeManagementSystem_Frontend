@@ -14,7 +14,7 @@ export class FeedbackComponent implements OnInit {
   feedbacks: Feedback[] = [];
   loading = true;
 
-  showFeedbackCard = true;
+  showFeedbackCard = false;
   showSearchCard = false;
   editMode = false;
   searchFeedbackId: number | null = null;

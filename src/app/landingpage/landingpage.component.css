@@ -1,0 +1,18 @@
+.carousel-caption {
+    position: absolute;
+    top: 3%;
+    left: 0; /* Start from the left edge */
+    right: 0; /* Extend to the right edge */
+    bottom: auto; /* Adjusted to remove overlap */
+    transform: none; /* Remove horizontal centering */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px; /* Uniform padding for a balanced look */
+    border-radius: 100; /* Remove border radius for full-width effect */
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 100%; /* Ensure it spans the full width */
+    word-wrap: break-word; /* Wraps long text */
+}

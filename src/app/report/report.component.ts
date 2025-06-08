@@ -31,6 +31,17 @@ export class ReportComponent implements OnInit {
     this.getAllReports();
   }
 
+  get isEmployee(): boolean {
+    const roles = sessionStorage.getItem('roles');
+    if (!roles) return false;
+    try {
+      const rolesArray = JSON.parse(roles);
+      return Array.isArray(rolesArray) ? rolesArray.includes('employee') : rolesArray === 'employee';
+    } catch {
+      return false;
+    }
+  }
+
   getAllReports() {
     this.loading = true;
     this.reportService.getAllReports().subscribe({
@@ -46,7 +57,6 @@ export class ReportComponent implements OnInit {
 
   toggleGenerateCard() {
     this.showGenerateCard = !this.showGenerateCard;
-    // Reset generate form values
     this.generateEmployeeId = null;
     this.generateError = '';
   }
@@ -56,8 +66,8 @@ export class ReportComponent implements OnInit {
     if (!this.generateEmployeeId) return;
     this.reportService.generateReportByEmployeeId(this.generateEmployeeId).subscribe({
       next: () => {
-        this.getAllReports(); // Refresh the table
-        this.showGenerateCard = false; // Optionally hide the card after generation
+        this.getAllReports();
+        this.showGenerateCard = false;
         this.generateEmployeeId = null;
       },
       error: () => {
@@ -68,7 +78,6 @@ export class ReportComponent implements OnInit {
 
   toggleSearchCard() {
     this.showSearchCard = !this.showSearchCard;
-    // Reset search form values
     this.searchReportId = null;
     this.searchResult = null;
     this.searchError = '';
@@ -96,7 +105,6 @@ export class ReportComponent implements OnInit {
     if (!confirm('Are you sure you want to delete this report?')) return;
     this.reportService.deleteReport(reportId).subscribe({
       next: () => {
-        // Optionally, update the search result or hide the search card
         this.searchResult = null;
         this.getAllReports();
       },

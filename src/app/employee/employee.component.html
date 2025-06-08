@@ -1,118 +1,90 @@
 <div class="background">
   <div class="container">
-    <div class="d-flex align-items-start mb-3">
-      <div class="d-flex flex-column me-3" style="min-width:220px;">
-        <button class="btn btn-warning fw-bold mb-3 py-3 px-5 fs-4" (click)="toggleRegisterCard()">
-          Register New Employee
-        </button>
-        <button class="btn btn-primary fw-bold py-3 px-5 fs-4" (click)="toggleSearchCard()">
-          Search
-        </button>
-      </div>
-      <div *ngIf="showRegisterCard" class="card p-4 shadow-sm register-card me-3">
-        <h5 class="mb-3">Register Employee</h5>
-        <form (ngSubmit)="registerEmployee()" #empForm="ngForm">
-          <div class="row">
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Employee ID</label>
-              <input type="number" class="form-control" required [(ngModel)]="newEmployee.employeeId" name="employeeId">
-            </div>
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" required [(ngModel)]="newEmployee.name" name="name">
-            </div>
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Department</label>
-              <select class="form-select" required [(ngModel)]="newEmployee.department" name="department">
-                <option value="" disabled>Select Department</option>
-                <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
-              </select>
-            </div>
+    <!-- Buttons Row -->
+    <div class="d-flex justify-content-start mb-3">
+      <button *ngIf="!isEmployee" class="component-button me-3" (click)="toggleRegisterCard()">
+        Register New Employee
+      </button>
+      <button class="component-button" (click)="toggleSearchCard()">
+        Search
+      </button>
+    </div>
+
+    <!-- Register Card -->
+    <div *ngIf="showRegisterCard && !isEmployee" class="card p-4 shadow-sm full-width-card">
+      <h5 class="mb-3">Register Employee</h5>
+      <form (ngSubmit)="registerEmployee()" #empForm="ngForm">
+        <div class="row">
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Employee ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="newEmployee.employeeId" name="employeeId">
           </div>
-          <div class="row">
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Role</label>
-              <select class="form-select" required [(ngModel)]="newEmployee.role" name="role">
-                <option value="" disabled>Select Role</option>
-                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-              </select>
-            </div>
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Contact Details</label>
-              <input type="text" class="form-control" required [(ngModel)]="newEmployee.contactDetails" name="contactDetails">
-            </div>
-            <div class="mb-2 col-md-4">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" required [(ngModel)]="registerPassword" name="registerPassword">
-            </div>
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" required [(ngModel)]="newEmployee.name" name="name">
           </div>
-          <button type="submit" class="btn btn-success w-100 mt-2">Register</button>
-        </form>
-      </div>
-      <div *ngIf="showSearchCard" class="card p-4 shadow-sm register-card">
-        <h5 class="mb-3">Search Employee</h5>
-        <form (ngSubmit)="searchEmployee()" #searchForm="ngForm">
-          <div class="row align-items-end">
-            <div class="mb-2 col-md-8">
-              <label class="form-label">Employee ID</label>
-              <input type="number" class="form-control" required [(ngModel)]="searchEmployeeId" name="searchEmployeeId">
-            </div>
-            <div class="mb-2 col-md-4">
-              <button type="submit" class="btn btn-primary w-100">Search</button>
-            </div>
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Department</label>
+            <select class="form-select" required [(ngModel)]="newEmployee.department" name="department">
+              <option value="" disabled>Select Department</option>
+              <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
+            </select>
           </div>
-        </form>
-        <div *ngIf="searchedEmployee">
-          <form (ngSubmit)="updateEmployee()" #updateForm="ngForm">
-            <div class="row mt-3">
-              <div class="mb-2 col-md-4">
-                <label class="form-label">Employee ID</label>
-                <input type="number" class="form-control" [(ngModel)]="searchedEmployee.employeeId" name="editEmployeeId" [readonly]="!editMode">
-              </div>
-              <div class="mb-2 col-md-4">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" [(ngModel)]="searchedEmployee.name" name="editName" [readonly]="!editMode">
-              </div>
-              <div class="mb-2 col-md-4">
-                <label class="form-label">Department</label>
-                <select class="form-select" [(ngModel)]="searchedEmployee.department" name="editDepartment" [disabled]="!editMode">
-                  <option value="" disabled>Select Department</option>
-                  <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="mb-2 col-md-4">
-                <label class="form-label">Role</label>
-                <select class="form-select" [(ngModel)]="searchedEmployee.role" name="editRole" [disabled]="!editMode">
-                  <option value="" disabled>Select Role</option>
-                  <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-                </select>
-              </div>
-              <div class="mb-2 col-md-8">
-                <label class="form-label">Contact Details</label>
-                <input type="text" class="form-control" [(ngModel)]="searchedEmployee.contactDetails" name="editContactDetails" [readonly]="!editMode">
-              </div>
-            </div>
-            <div class="d-flex justify-content-end gap-2 mt-3">
-              <button type="button" class="btn btn-danger" (click)="deleteEmployee(searchedEmployee.employeeId)">Delete</button>
-              <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="editMode = true">Update</button>
-              <button *ngIf="editMode" type="submit" class="btn btn-success">Save</button>
-              <button *ngIf="editMode" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-            </div>
-          </form>
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Role</label>
+            <select class="form-select" required [(ngModel)]="newEmployee.role" name="role">
+              <option value="" disabled>Select Role</option>
+              <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            </select>
+          </div>
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Contact Details</label>
+            <input type="text" class="form-control" required [(ngModel)]="newEmployee.contactDetails" name="contactDetails">
+          </div>
+          <div class="mb-2 col-md-4">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" required [(ngModel)]="registerPassword" name="registerPassword">
+          </div>
         </div>
-        <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
-        <div class="mt-2 text-muted small">
+        <button type="submit" class="btn btn-success w-100 mt-2">Register</button>
+      </form>
+    </div>
+
+    <!-- Search Card -->
+    <div *ngIf="showSearchCard" class="card p-4 shadow-sm full-width-card">
+      <h5 class="mb-3">Search Employee</h5>
+      <form (ngSubmit)="searchEmployee()" #searchForm="ngForm">
+        <div class="row">
+          <div class="mb-2 col-md-8">
+            <label class="form-label">Employee ID</label>
+            <input type="number" class="form-control" required [(ngModel)]="searchEmployeeId" name="searchEmployeeId">
+          </div>
+          <div class="mb-2 col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="searchError" class="text-danger mt-2">{{ searchError }}</div>
+      <div *ngIf="searchedEmployee" class="mt-3">
+        <h5>Employee Details</h5>
+        <p><strong>ID:</strong> {{ searchedEmployee.employeeId }}</p>
+        <p><strong>Name:</strong> {{ searchedEmployee.name }}</p>
+        <p><strong>Department:</strong> {{ searchedEmployee.department }}</p>
+        <p><strong>Role:</strong> {{ searchedEmployee.role }}</p>
+        <p><strong>Contact:</strong> {{ searchedEmployee.contactDetails }}</p>
+        <div class="d-flex gap-2 mt-3">
+          <button *ngIf="!isEmployee" class="btn btn-warning" (click)="editMode = true">Update</button>
+          <button *ngIf="!isEmployee" class="btn btn-danger" (click)="deleteEmployee(searchedEmployee.employeeId)">Delete</button>
         </div>
       </div>
     </div>
+
+    <!-- Employee Table -->
     <h2 class="mb-4 text-center">Employee Profiles</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
-    <table *ngIf="!loading"
-      class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
+    <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
       <thead>
         <tr class="gold-header">
           <th><span class="gradient-text">Employee ID</span></th>
@@ -123,12 +95,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let emp of employees" class="table-row">
-          <td>{{ emp.employeeId }}</td>
-          <td>{{ emp.name }}</td>
-          <td>{{ emp.contactDetails }}</td>
-          <td>{{ emp.department }}</td>
-          <td>{{ emp.role }}</td>
+        <tr *ngFor="let employee of employees" class="table-row">
+          <td>{{ employee.employeeId }}</td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.contactDetails }}</td>
+          <td>{{ employee.department }}</td>
+          <td>{{ employee.role }}</td>
         </tr>
       </tbody>
     </table>

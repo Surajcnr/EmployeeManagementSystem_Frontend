@@ -8,16 +8,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+        <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
           <a routerLink="/employee" class="nav-link">Employee</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+        <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
           <a routerLink="/performance" class="nav-link">Performance</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+        <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
           <a routerLink="/feedback" class="nav-link">Feedback</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn && isAdmin">
+        <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
           <a routerLink="/report" class="nav-link">Report</a>
         </li>
       </ul>

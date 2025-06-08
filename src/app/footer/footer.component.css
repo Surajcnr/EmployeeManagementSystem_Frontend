@@ -1,0 +1,28 @@
+.custom-footer {
+    background-color: #000000; /* Midnight Purple */
+    color: #E6E6FA; /* Lavender Mist */
+  }
+ 
+  .footer-link {
+    color: #E6E6FA;
+    text-decoration: none;
+  }
+ 
+  .footer-link:hover {
+    text-decoration: underline;
+    color: gold;
+  }
+ 
+  .text-lavender {
+    color: gold;
+  }
+ 
+  .social-icon {
+    color: #E6E6FA;
+    margin: 0 10px;
+    font-size: 1.2rem;
+  }
+ 
+  .social-icon:hover {
+    color: #DA70D6;
+  }

@@ -14,7 +14,7 @@ import { LoginService } from '../login.service'; // Import your login service
 export class EmployeeComponent implements OnInit {
   employees: Employee[] = [];
   loading = true;
-  showRegisterCard = true;
+  showRegisterCard = false;
   showSearchCard = false;
   editMode = false;
   originalEmployee: Employee | null = null;
@@ -50,6 +50,17 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit() {
     this.getEmployees();
+  }
+
+  get isEmployee(): boolean {
+    const roles = sessionStorage.getItem('roles');
+    if (!roles) return false;
+    try {
+      const rolesArray = JSON.parse(roles);
+      return Array.isArray(rolesArray) ? rolesArray.includes('employee') : rolesArray === 'employee';
+    } catch {
+      return false;
+    }
   }
 
   getEmployees() {
@@ -109,6 +120,7 @@ export class EmployeeComponent implements OnInit {
             this.resetForm();
             this.registerPassword = '';
             alert('Employee registered and user created!');
+           
           },
           error: () => {
             alert('Employee registered, but user creation failed!');

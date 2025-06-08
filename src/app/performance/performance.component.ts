@@ -14,7 +14,7 @@ export class PerformanceComponent implements OnInit {
   reviews: PerformanceReview[] = [];
   loading = true;
 
-  showReviewCard = true;
+  showReviewCard = false;
   showSearchCard = false;
   editMode = false;
 
@@ -37,6 +37,17 @@ export class PerformanceComponent implements OnInit {
 
   ngOnInit() {
     this.getReviews();
+  }
+
+  get isEmployee(): boolean {
+    const roles = sessionStorage.getItem('roles');
+    if (!roles) return false;
+    try {
+      const rolesArray = JSON.parse(roles);
+      return Array.isArray(rolesArray) ? rolesArray.includes('employee') : rolesArray === 'employee';
+    } catch {
+      return false;
+    }
   }
 
   getReviews() {
