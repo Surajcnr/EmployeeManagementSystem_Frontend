@@ -5,13 +5,14 @@ import { EmployeeComponent } from './employee/employee.component';
 import { PerformanceComponent } from './performance/performance.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { ReportComponent } from './report/report.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingpageComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'employee', component: EmployeeComponent },
-  { path: 'performance', component: PerformanceComponent },
-  { path: 'feedback', component: FeedbackComponent },
-  { path: 'report', component: ReportComponent },
+  { path: 'employee', component: EmployeeComponent, canActivate: [authGuard] },
+  { path: 'performance', component: PerformanceComponent, canActivate: [authGuard] },
+  { path: 'feedback', component: FeedbackComponent, canActivate: [authGuard] },
+  { path: 'report', component: ReportComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

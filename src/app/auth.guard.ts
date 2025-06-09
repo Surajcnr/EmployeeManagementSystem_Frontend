@@ -1,10 +1,12 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  if(sessionStorage.getItem("roles")=="ADMIN"){
+  const jwt = sessionStorage.getItem('jwt');
+  if (jwt) {
     return true;
-    }
-    else{
-      return false;
-    }
+  } else {
+    const router = new Router();
+    router.navigate(['/login']); // Redirect to login page
+    return false;
+  }
 };

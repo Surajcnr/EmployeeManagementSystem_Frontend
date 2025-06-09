@@ -3,6 +3,7 @@ import { EmployeeService, Employee } from '../employee.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoginService } from '../login.service'; // Import your login service
+import { EmailService } from '../email.service'; // Import EmailService
 
 @Component({
   selector: 'app-employee',
@@ -45,7 +46,8 @@ export class EmployeeComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private loginService: LoginService // Inject login service
+    private loginService: LoginService, // Inject login service
+    private emailService: EmailService // Inject EmailService
   ) {}
 
   ngOnInit() {
@@ -107,20 +109,42 @@ export class EmployeeComponent implements OnInit {
   registerEmployee() {
     this.employeeService.registerEmployee(this.newEmployee).subscribe({
       next: () => {
-        // After employee registration, register for login
         const loginUser = {
           name: this.newEmployee.name,
           password: this.registerPassword,
-          email: this.newEmployee.contactDetails, // changed from contactDetails to email
-          roles: 'employee' // changed from role to roles (array)
+          email: this.newEmployee.contactDetails,
+          roles: 'employee'
         };
         this.loginService.register(loginUser).subscribe({
           next: () => {
             this.getEmployees();
+
+            // Prepare email details
+            const recipient = this.newEmployee.contactDetails;
+            const msgBody = `username: ${this.newEmployee.name}, password: ${this.registerPassword}`;
+            const subject = 'Login credentials';
+
+            // Debugging: Log values to ensure they are correct
+            console.log('New Employee:', this.newEmployee);
+            console.log('Register Password:', this.registerPassword);
+            console.log('Recipient:', recipient);
+            console.log('Message Body:', msgBody);
+            console.log('Subject:', subject);
+
+            // Send email to the new employee
+            this.emailService.sendEmail(recipient, msgBody, subject).subscribe({
+              next: () => {
+                alert('Email sent successfully!');
+              },
+              error: (err) => {
+                console.error('Failed to send email:', err);
+                alert('Failed to send email.');
+              }
+            });
+
             this.resetForm();
             this.registerPassword = '';
             alert('Employee registered and user created!');
-           
           },
           error: () => {
             alert('Employee registered, but user creation failed!');
