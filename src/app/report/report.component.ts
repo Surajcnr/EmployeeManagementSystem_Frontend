@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ReportService, Report } from '../report.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from '../email.service'; // Import EmailService
+import { EmployeeService } from '../employee.service'; // Import EmployeeService
 
 @Component({
   selector: 'app-report',
@@ -25,7 +27,11 @@ export class ReportComponent implements OnInit {
   searchResult: Report | null = null;
   searchError: string = '';
 
-  constructor(private reportService: ReportService) {}
+  constructor(
+    private reportService: ReportService,
+    private emailService: EmailService, // Inject EmailService
+    private employeeService: EmployeeService // Inject EmployeeService
+  ) {}
 
   ngOnInit() {
     this.getAllReports();
@@ -64,15 +70,45 @@ export class ReportComponent implements OnInit {
   generateReport() {
     this.generateError = '';
     if (!this.generateEmployeeId) return;
-    this.reportService.generateReportByEmployeeId(this.generateEmployeeId).subscribe({
-      next: () => {
-        this.getAllReports();
-        this.showGenerateCard = false;
-        this.generateEmployeeId = null;
+
+    // Fetch employee details by ID
+    this.employeeService.getEmployeeById(this.generateEmployeeId).subscribe({
+      next: (employee) => {
+        if (employee && employee.contactDetails) {
+          // Generate the report
+          this.reportService.generateReportByEmployeeId(this.generateEmployeeId!).subscribe({
+            next: (report) => {
+              this.getAllReports();
+              this.showGenerateCard = false;
+              
+
+              // Prepare email details
+              const recipient = employee.contactDetails;
+              const subject = `Report for Employee ID: ${this.generateEmployeeId}`;
+              const msgBody = `Performance Score: ${report.performanceSummary}, Feedback: ${report.feedbackSummary}`;
+              this.generateEmployeeId = null;
+              // Send email
+              this.emailService.sendEmail(recipient, msgBody, subject).subscribe({
+                next: () => {
+                  alert('Report generated and sent successfully!');
+                },
+                error: () => {
+                  alert('Report generated, but failed to send email.');
+                }
+              });
+            },
+            error: () => {
+              this.generateError = 'Report generation failed or employee not found.';
+            }
+          });
+        } else {
+          this.generateError = 'Employee not found or contact details missing.';
+        }
       },
       error: () => {
-        this.generateError = 'Report generation failed or employee not found.';
+        this.generateError = 'Failed to fetch employee details.';
       }
+      
     });
   }
 

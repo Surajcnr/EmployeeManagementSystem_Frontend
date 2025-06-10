@@ -4,40 +4,47 @@
     'background-image': 'url(\admin.jpg)'
   }"
 >
-  <div class="login-box shadow p-4 rounded">
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <!-- Username Input Field -->
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input
-          type="text"
-          id="username"
-          ngModel name="username"
-          class="form-control"
-          placeholder="Enter your username"
-          required>
-        <div *ngIf="loginForm.submitted && loginForm.controls['username']?.invalid" class="text-danger">
-          Please enter your username.
-        </div>
-      </div>
+  <div class="login-box-container d-flex shadow p-4 rounded">
+    <!-- GIF Section -->
+    <img src="/empofmnth.gif" alt="Login GIF" class="login-gif">
 
-      <!-- Password Input Field -->
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input
-          type="password"
-          id="password"
-          ngModel name="password"
-          class="form-control"
-          placeholder="Enter your password"
-          required>
-        <div *ngIf="loginForm.submitted && loginForm.controls['password']?.invalid" class="text-danger">
-          Password is required.
+    <!-- Login Box -->
+    <div class="login-box">
+      <h2 class="text-center mb-4">Sign In</h2>
+      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+        <!-- Username Input Field -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            id="username"
+            ngModel name="username"
+            class="form-control"
+            placeholder="Enter your username"
+            required>
+          <div *ngIf="loginForm.submitted && loginForm.controls['username']?.invalid" class="text-danger">
+            Please enter your username.
+          </div>
         </div>
-      </div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
+        <!-- Password Input Field -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            ngModel name="password"
+            class="form-control"
+            placeholder="Enter your password"
+            required>
+          <div *ngIf="loginForm.submitted && loginForm.controls['password']?.invalid" class="text-danger">
+            Password is required.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
   </div>
 </div>

@@ -1,18 +1,38 @@
 .carousel-caption {
     position: absolute;
     top: 3%;
-    left: 0; /* Start from the left edge */
-    right: 0; /* Extend to the right edge */
-    bottom: auto; /* Adjusted to remove overlap */
-    transform: none; /* Remove horizontal centering */
+    left: 0;
+    right: 0;
+    bottom: auto;
+    transform: none;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    padding: 20px; /* Uniform padding for a balanced look */
-    border-radius: 100; /* Remove border radius for full-width effect */
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
     color: white;
     font-size: 20px;
     font-weight: bold;
-    max-width: 100%; /* Ensure it spans the full width */
-    word-wrap: break-word; /* Wraps long text */
+    max-width: 100%;
+    word-wrap: break-word;
+    animation: fadeInCaption 1s ease-in-out; /* Smooth fade-in animation */
+}
+
+@keyframes fadeInCaption {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.carousel-item img {
+    transition: transform 0.5s ease-in-out; /* Smooth zoom effect */
+}
+
+.carousel-item img:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
 }
