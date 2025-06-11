@@ -47,3 +47,9 @@
     color: black;
     animation: shine 1s infinite linear;
 }
+
+.button-gif {
+  width: 30px; /* Adjust size to match button height */
+  height: 30px; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the GIF fits properly */
+}
