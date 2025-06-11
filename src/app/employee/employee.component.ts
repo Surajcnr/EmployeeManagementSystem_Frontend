@@ -121,7 +121,7 @@ export class EmployeeComponent implements OnInit {
 
             // Prepare email details
             const recipient = this.newEmployee.contactDetails;
-            const msgBody = `username: ${this.newEmployee.name}, password: ${this.registerPassword}`;
+            const msgBody = `Username: ${this.newEmployee.name},\n Password: ${this.registerPassword},\n Employee ID: ${this.newEmployee.employeeId}`;
             const subject = 'Login credentials';
 
             // Debugging: Log values to ensure they are correct
@@ -184,16 +184,37 @@ export class EmployeeComponent implements OnInit {
 
   updateEmployee() {
     if (this.searchedEmployee) {
+      console.log('Updating Employee:', this.searchedEmployee); // Debugging
       this.employeeService.updateEmployee(this.searchedEmployee).subscribe({
         next: () => {
           this.editMode = false;
           this.getEmployees();
+
+          // Prepare email details
+          const recipient = this.searchedEmployee.contactDetails;
+          const subject = `Updated Details for Employee ID: ${this.searchedEmployee.employeeId}`;
+          const msgBody = `Your details have been updated.\nName: ${this.searchedEmployee.name},\nDepartment: ${this.searchedEmployee.department},\nRole: ${this.searchedEmployee.role}`;
+
+          // Send email
+          this.emailService.sendEmail(recipient, msgBody, subject).subscribe({
+            next: () => {
+              alert('Employee details updated and email sent successfully!');
+            },
+            error: (err) => {
+              console.error('Failed to send email:', err); // Debugging
+              alert('Employee details updated, but failed to send email.');
+            }
+          });
         },
         error: () => {
           alert('Update failed!');
         }
       });
     }
+  }
+
+  enableEdit() {
+    this.editMode = true;
   }
 
   cancelEdit() {
