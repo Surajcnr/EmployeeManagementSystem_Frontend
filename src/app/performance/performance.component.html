@@ -4,9 +4,19 @@
       <button *ngIf="!isEmployee" class="component-button me-3" (click)="toggleReviewCard()">
         Enter Performance Review
       </button>
-      <button class="component-button" (click)="toggleSearchCard()">
+      <button class="component-button me-3" (click)="toggleSearchCard()">
         Search Performance Review
       </button>
+      <!-- Search Bar and Button -->
+      <div class="d-flex ms-auto">
+        <input
+          type="number"
+          class="form-control me-2"
+          placeholder="Enter Employee ID"
+          [(ngModel)]="searchEmployeeId"
+        />
+        <button class="component-button" (click)="searchEmployeePerformance()">Search Employee</button>
+      </div>
     </div>
 
     <!-- Search Performance Review Card -->
@@ -88,6 +98,7 @@
       </form>
     </div>
 
+    <!-- Existing Table -->
     <h2 class="mb-4 text-center">Performance Reviews</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
@@ -104,7 +115,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let review of reviews" class="table-row">
+        <tr *ngFor="let review of filteredReviews" class="table-row">
           <td>{{ review.reviewId }}</td>
           <td>{{ review.employeeId }}</td>
           <td>{{ review.managerId }}</td>

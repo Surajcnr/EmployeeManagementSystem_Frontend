@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PerformanceComponent implements OnInit {
   reviews: PerformanceReview[] = [];
+  filteredReviews: PerformanceReview[] = [];
   loading = true;
 
   showReviewCard = false;
@@ -32,6 +33,8 @@ export class PerformanceComponent implements OnInit {
   searchedReview: PerformanceReview | null = null;
   originalReview: PerformanceReview | null = null;
   searchError: string = '';
+
+  searchEmployeeId: number | null = null;
 
   constructor(private performanceService: PerformanceService) {}
 
@@ -55,6 +58,7 @@ export class PerformanceComponent implements OnInit {
     this.performanceService.getAllReviews().subscribe({
       next: (data) => {
         this.reviews = data;
+        this.filteredReviews = data; // Initialize filteredReviews with all reviews
         this.loading = false;
       },
       error: () => {
@@ -156,6 +160,16 @@ export class PerformanceComponent implements OnInit {
           alert('Delete failed!');
         }
       });
+    }
+  }
+
+  searchEmployeePerformance() {
+    if (this.searchEmployeeId) {
+      this.filteredReviews = this.reviews.filter(
+        (review) => review.employeeId === this.searchEmployeeId
+      );
+    } else {
+      this.filteredReviews = this.reviews; // Reset to show all reviews if no ID is entered
     }
   }
 }

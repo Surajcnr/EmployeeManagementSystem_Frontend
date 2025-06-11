@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../login.service';
-import { jwtDecode } from 'jwt-decode'; // Ensure you have jwt-decode installed via npm
+import { jwtDecode } from 'jwt-decode'; 
 
 @Component({
   selector: 'login',

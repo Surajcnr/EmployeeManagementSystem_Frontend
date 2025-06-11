@@ -40,7 +40,7 @@ export class EmployeeComponent implements OnInit {
     'Marketing', 'Sales', 'Information Technology (IT)'
   ];
   roles = [
-    'Intern', 'Assistant', 'Coordinator', 'Specialist', 'Clerk',
+    'Admin','Intern', 'Assistant', 'Coordinator', 'Specialist', 'Clerk',
     'Administrator', 'Analyst', 'Team Lead'
   ];
 
