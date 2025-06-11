@@ -9,16 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
-          <a routerLink="/employee" class="nav-link">Employee</a>
+          <a routerLink="/employee" routerLinkActive="glowing-link" class="nav-link">Employee</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
-          <a routerLink="/performance" class="nav-link">Performance</a>
+          <a routerLink="/performance" routerLinkActive="glowing-link" class="nav-link">Performance</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
-          <a routerLink="/feedback" class="nav-link">Feedback</a>
+          <a routerLink="/feedback" routerLinkActive="glowing-link" class="nav-link">Feedback</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn && (isAdmin || isEmployee)">
-          <a routerLink="/report" class="nav-link">Report</a>
+          <a routerLink="/report" routerLinkActive="glowing-link" class="nav-link">Report</a>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">

@@ -18,6 +18,11 @@ export class LoginPageComponent  {
 
   token: string;
   onSubmit(form: NgForm): any {
+    if (!form.valid) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
     this.logService.login(form.value).subscribe(response => {
       // Store JWT token
       console.log("Response from login service: ", response);
