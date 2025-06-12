@@ -14,6 +14,7 @@ import { EmployeeService } from '../employee.service'; // Import EmployeeService
 })
 export class ReportComponent implements OnInit {
   reports: Report[] = [];
+  filteredReports: Report[] = [];
   loading = true;
 
   // Generate Report variables
@@ -26,6 +27,8 @@ export class ReportComponent implements OnInit {
   searchReportId: number | null = null;
   searchResult: Report | null = null;
   searchError: string = '';
+
+  searchEmployeeId: number | null = null;
 
   constructor(
     private reportService: ReportService,
@@ -53,6 +56,7 @@ export class ReportComponent implements OnInit {
     this.reportService.getAllReports().subscribe({
       next: (data) => {
         this.reports = data;
+        this.filteredReports = data; // Initialize filteredReports with all reports
         this.loading = false;
       },
       error: () => {
@@ -135,6 +139,16 @@ export class ReportComponent implements OnInit {
         this.searchError = 'Error occurred while searching for a report.';
       }
     });
+  }
+
+  searchEmployeeReports() {
+    if (this.searchEmployeeId) {
+      this.filteredReports = this.reports.filter(
+        (report) => report.employeeId === this.searchEmployeeId
+      );
+    } else {
+      this.filteredReports = this.reports; // Reset to show all reports if no ID is entered
+    }
   }
 
   deleteReport(reportId: number) {

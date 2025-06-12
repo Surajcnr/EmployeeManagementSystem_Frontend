@@ -7,9 +7,19 @@
         Generate Report
       </button>
       <!-- Search Report Button -->
-      <button class="component-button" (click)="toggleSearchCard()">
+      <button class="component-button me-3" (click)="toggleSearchCard()">
         Search Report
       </button>
+      <!-- Search Employee Bar and Button -->
+      <div class="d-flex ms-auto">
+        <input
+          type="number"
+          class="form-control me-2"
+          placeholder="Enter Employee ID"
+          [(ngModel)]="searchEmployeeId"
+        />
+        <button class="component-button" (click)="searchEmployeeReports()">SearchEmployee</button>
+      </div>
     </div>
 
     <!-- Generate Report Card -->
@@ -71,7 +81,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let report of reports" class="table-row">
+        <tr *ngFor="let report of filteredReports" class="table-row">
           <td>{{ report.reportId }}</td>
           <td>{{ report.employeeId }}</td>
           <td>{{ report.reportDate | date:'mediumDate' }}</td>

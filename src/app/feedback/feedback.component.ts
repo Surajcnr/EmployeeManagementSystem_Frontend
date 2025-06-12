@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class FeedbackComponent implements OnInit {
   feedbacks: Feedback[] = [];
+  filteredFeedbacks: Feedback[] = [];
   loading = true;
 
   showFeedbackCard = false;
@@ -21,6 +22,7 @@ export class FeedbackComponent implements OnInit {
   searchedFeedback: Feedback | null = null;
   searchError: string = '';
   originalFeedback: Feedback | null = null;
+  searchEmployeeId: number | null = null;
 
   // Form model
   newFeedback = {
@@ -47,6 +49,7 @@ export class FeedbackComponent implements OnInit {
     this.feedbackService.getAllFeedbacks().subscribe({
       next: (data) => {
         this.feedbacks = data;
+        this.filteredFeedbacks = data;
         this.loading = false;
       },
       error: () => {
@@ -140,6 +143,17 @@ export class FeedbackComponent implements OnInit {
           alert('Delete failed!');
         }
       });
+    }
+  }
+  searchEmployeeFeedback() {
+    if (this.searchEmployeeId) {
+      this.filteredFeedbacks = this.feedbacks.filter(
+        (feedback) =>
+          feedback.fromEmployeeId === this.searchEmployeeId ||
+          feedback.toEmployeeId === this.searchEmployeeId
+      );
+    } else {
+      this.filteredFeedbacks = this.feedbacks; // Reset to show all feedbacks if no ID is entered
     }
   }
 }

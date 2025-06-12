@@ -40,7 +40,7 @@ export class EmployeeComponent implements OnInit {
     'Marketing', 'Sales', 'Information Technology (IT)'
   ];
   roles = [
-    'Admin','Intern', 'Assistant', 'Coordinator', 'Specialist', 'Clerk',
+    'Evaluator','Intern', 'Assistant', 'Coordinator', 'Specialist', 'Clerk',
     'Administrator', 'Analyst', 'Team Lead'
   ];
 
@@ -193,7 +193,7 @@ export class EmployeeComponent implements OnInit {
           // Prepare email details
           const recipient = this.searchedEmployee.contactDetails;
           const subject = `Updated Details for Employee ID: ${this.searchedEmployee.employeeId}`;
-          const msgBody = `Your details have been updated.\nName: ${this.searchedEmployee.name},\nDepartment: ${this.searchedEmployee.department},\nRole: ${this.searchedEmployee.role}`;
+          const msgBody = `Your details have been updated.\nUsername: ${this.searchedEmployee.name},\nDepartment: ${this.searchedEmployee.department},\nRole: ${this.searchedEmployee.role}`;
 
           // Send email
           this.emailService.sendEmail(recipient, msgBody, subject).subscribe({

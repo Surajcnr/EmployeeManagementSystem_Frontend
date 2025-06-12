@@ -4,9 +4,19 @@
       <button class="component-button me-3" (click)="toggleFeedbackCard()">
         Enter Feedback
       </button>
-      <button class="component-button" (click)="toggleSearchCard()">
+      <button class="component-button me-3" (click)="toggleSearchCard()">
         Search Feedback
       </button>
+      <!-- Search Bar and Button -->
+      <div class="d-flex ms-auto">
+        <input
+          type="number"
+          class="form-control me-2"
+          placeholder="Enter Employee ID"
+          [(ngModel)]="searchEmployeeId"
+        />
+        <button class="component-button" (click)="searchEmployeeFeedback()">SearchEmployee</button>
+      </div>
     </div>
 
     <!-- Search Feedback Card -->
@@ -83,13 +93,15 @@
         <button type="submit" class="btn btn-success w-100 mt-2">Submit</button>
       </form>
     </div>
+
+    <!-- Existing Table -->
     <h2 class="mb-4 text-center">Feedbacks</h2>
     <div *ngIf="loading" class="text-center">
       <div class="spinner-border text-primary" role="status"></div>
     </div>
     <table *ngIf="!loading" class="table table-hover table-bordered shadow rounded animate__animated animate__fadeIn">
-        <thead>
-            <tr class="gold-header">
+      <thead>
+        <tr class="gold-header">
           <th>Feedback ID</th>
           <th>From Employee ID</th>
           <th>To Employee ID</th>
@@ -98,12 +110,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let fb of feedbacks" class="table-row">
-          <td>{{ fb.feedbackId }}</td>
-          <td>{{ fb.fromEmployeeId }}</td>
-          <td>{{ fb.toEmployeeId }}</td>
-          <td>{{ fb.feedbackType }}</td>
-          <td>{{ fb.comments }}</td>
+        <tr *ngFor="let feedback of filteredFeedbacks" class="table-row">
+          <td>{{ feedback.feedbackId }}</td>
+          <td>{{ feedback.fromEmployeeId }}</td>
+          <td>{{ feedback.toEmployeeId }}</td>
+          <td>{{ feedback.feedbackType }}</td>
+          <td>{{ feedback.comments }}</td>
         </tr>
       </tbody>
     </table>
