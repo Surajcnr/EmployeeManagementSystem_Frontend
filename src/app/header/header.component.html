@@ -23,15 +23,15 @@
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item d-flex align-items-center" *ngIf="!isLoggedIn">
-          <img src="/signin.gif" alt="Sign In GIF" class="button-gif me-2">
+          <img src="/door.png" alt="Door Icon" class="button-gif me-2">
           <a routerLink="/login" routerLinkActive="active" class="login-btn nav-link">
-            Sign In
+            Sign in
           </a>
         </li>
         <li class="nav-item d-flex align-items-center" *ngIf="isLoggedIn">
           <button class="btn btn-danger nav-link d-flex align-items-center" (click)="logout()">
             Logout
-            <img src="/logout.gif" alt="Logout GIF" class="button-gif ms-2">
+            <img src="/door.png" alt="Door Icon" class="button-gif ms-2">
           </button>
         </li>
       </ul>

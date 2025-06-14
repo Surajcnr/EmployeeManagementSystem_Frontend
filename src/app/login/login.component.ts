@@ -11,12 +11,12 @@ import { jwtDecode } from 'jwt-decode';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginPageComponent  {
+export class LoginPageComponent {
   constructor(private router: Router, private logService: LoginService) {}
   selectedRole: string = 'admin';
   password: string = '';
-
   token: string;
+
   onSubmit(form: NgForm): any {
     if (!form.valid) {
       alert('Please fill in all required fields.');
@@ -34,11 +34,21 @@ export class LoginPageComponent  {
         console.log('Decoded JWT:', decoded);
         if (decoded && decoded.roles) {
           sessionStorage.setItem('roles', JSON.stringify(decoded.roles));
+          // Show alert based on roles
+          if (decoded.roles.includes('admin')) {
+            alert('You are logged in as an Admin.');
+          } else if (decoded.roles.includes('employee')) {
+            alert('You are logged in as an Employee.');
+          } else {
+            alert('You are logged in with unknown roles.');
+          }
         } else {
           sessionStorage.removeItem('roles');
+          alert('Login successful, but roles are not defined.');
         }
       } catch (e) {
         sessionStorage.removeItem('roles');
+        alert('Login successful, but failed to decode roles.');
       }
 
       // Navigate to landing page
