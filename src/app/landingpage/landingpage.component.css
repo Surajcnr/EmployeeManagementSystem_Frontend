@@ -42,17 +42,33 @@
   background-color: black;
   justify-content: space-around;
   align-items: center;
-  height: 200px; /* Increase the height of the container */
-  width: 100%; /* Ensure the container spans the full width */
+  height: 200px;
+  width: 100%;
 }
 
 .chart {
   width: 150px;
-  height: 150px;
   text-align: center;
+}
+
+.circle {
+  width: 125px;
+  height: 125px;
   background: radial-gradient(ellipse at center, #f5e78d 25%, #95642b); /* Radial gradient background */
-  border-radius: 50%; /* Make the chart container round */
-  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.circle:hover {
+  transform: scale(1.1); /* Slight zoom effect */
 }
 
 canvas {

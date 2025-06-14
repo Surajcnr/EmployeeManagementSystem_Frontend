@@ -2,21 +2,21 @@
 
   <div class="charts-container" *ngIf="isLoggedIn">
     <h2 class="text-center text-white mb-4">Dashboard Overview</h2>
-    <div class="chart" id="employee-chart">
+    <div class="chart text-white">
       <h5>Employees</h5>
-      <canvas id="employeeChart"></canvas>
+      <div class="circle">{{ employeeCount }}</div>
     </div>
-    <div class="chart" id="performance-chart">
+    <div class="chart text-white">
       <h5>Reviews</h5>
-      <canvas id="performanceChart"></canvas>
+      <div class="circle">{{ reviewCount }}</div>
     </div>
-    <div class="chart" id="feedback-chart">
+    <div class="chart text-white">
       <h5>Feedbacks</h5>
-      <canvas id="feedbackChart"></canvas>
+      <div class="circle">{{ feedbackCount }}</div>
     </div>
-    <div class="chart" id="report-chart">
+    <div class="chart text-whites">
       <h5>Reports</h5>
-      <canvas id="reportChart"></canvas>
+      <div class="circle">{{ reportCount }}</div>
     </div>
   </div>
 

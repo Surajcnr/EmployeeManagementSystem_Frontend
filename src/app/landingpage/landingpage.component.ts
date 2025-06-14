@@ -5,7 +5,6 @@ import { PerformanceService } from '../performance.service';
 import { FeedbackService } from '../feedback.service';
 import { ReportService } from '../report.service';
 import { CommonModule } from '@angular/common';
-import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'landingpage',
@@ -14,6 +13,11 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./landingpage.component.css']
 })
 export class LandingpageComponent implements OnInit {
+  employeeCount: number = 0;
+  reviewCount: number = 0;
+  feedbackCount: number = 0;
+  reportCount: number = 0;
+
   constructor(
     private employeeService: EmployeeService,
     private performanceService: PerformanceService,
@@ -27,53 +31,40 @@ export class LandingpageComponent implements OnInit {
 
   ngOnInit() {
     if (this.isLoggedIn) {
-      this.initializeCharts();
+      this.fetchCounts();
     }
   }
 
-  initializeCharts() {
+  fetchCounts() {
     this.employeeService.getAllEmployees().subscribe((employees) => {
-      this.createChart('employeeChart', employees.length, 'Employees');
+      this.animateCount('employeeCount', employees.length);
     });
 
     this.performanceService.getAllReviews().subscribe((reviews) => {
-      this.createChart('performanceChart', reviews.length, 'Reviews');
+      this.animateCount('reviewCount', reviews.length);
     });
 
     this.feedbackService.getAllFeedbacks().subscribe((feedbacks) => {
-      this.createChart('feedbackChart', feedbacks.length, 'Feedbacks');
+      this.animateCount('feedbackCount', feedbacks.length);
     });
 
     this.reportService.getAllReports().subscribe((reports) => {
-      this.createChart('reportChart', reports.length, 'Reports');
+      this.animateCount('reportCount', reports.length);
     });
   }
 
-  createChart(chartId: string, data: number, label: string) {
-    new Chart(chartId, {
-      type: 'doughnut',
-      data: {
-        labels: [label, 'Remaining'], // Update the legend text here
-        datasets: [
-          {
-            data: [data, 100 - data],
-            backgroundColor: ['#0066CC', '#e0e0e0'], // Change the green color (#4caf50) to a new color (#ff5733)
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        animation: {
-          animateScale: true
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: '#000000', // Optional: Change legend text color
-            }
-          }
-        }
+  animateCount(
+    property: 'employeeCount' | 'reviewCount' | 'feedbackCount' | 'reportCount',
+    targetValue: number
+  ) {
+    let currentValue = 0;
+    const interval = setInterval(() => {
+      if (currentValue < targetValue) {
+        currentValue++;
+        this[property] = currentValue;
+      } else {
+        clearInterval(interval);
       }
-    });
+    }, 100); // Adjust the speed of animation by changing the interval time
   }
 }
