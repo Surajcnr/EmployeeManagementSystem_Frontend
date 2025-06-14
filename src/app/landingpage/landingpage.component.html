@@ -19,6 +19,52 @@
       <div class="circle">{{ reportCount }}</div>
     </div>
   </div>
+  
+  <!-- Options cards -->
+  <div class="features-section mt-5" *ngIf="isLoggedIn">
+    <div class="row justify-content-center">
+      <!-- Card 1 -->
+      <div class="col-md-3">
+        <div class="card feature-card" (click)="navigateTo('employee')">
+          <div class="card-body text-center">
+            <img src="/emp.gif" alt="Employee GIF" class="feature-gif" (mouseover)="playGif($event)" (mouseout)="stopGif($event)">
+            <h5 class="card-title mt-3">Employee</h5>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="col-md-3">
+        <div class="card feature-card" (click)="navigateTo('performance')">
+          <div class="card-body text-center">
+            <img src="/per.gif" alt="Performance GIF" class="feature-gif" (mouseover)="playGif($event)" (mouseout)="stopGif($event)">
+            <h5 class="card-title mt-3">Performance</h5>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="col-md-3">
+        <div class="card feature-card" (click)="navigateTo('feedback')">
+          <div class="card-body text-center">
+            <img src="/feed.gif" alt="Feedback GIF" class="feature-gif" (mouseover)="playGif($event)" (mouseout)="stopGif($event)">
+            <h5 class="card-title mt-3">Feedback</h5>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="col-md-3">
+        <div class="card feature-card" (click)="navigateTo('report')">
+          <div class="card-body text-center">
+            <img src="/rep.gif" alt="Report GIF" class="feature-gif" (mouseover)="playGif($event)" (mouseout)="stopGif($event)">
+            <h5 class="card-title mt-3">Report</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+
 
 <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2500">
   <div class="carousel-inner">

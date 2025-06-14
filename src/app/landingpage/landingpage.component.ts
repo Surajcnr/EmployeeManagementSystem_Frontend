@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { EmployeeService } from '../employee.service';
 import { PerformanceService } from '../performance.service';
@@ -19,6 +20,7 @@ export class LandingpageComponent implements OnInit {
   reportCount: number = 0;
 
   constructor(
+    private router: Router,
     private employeeService: EmployeeService,
     private performanceService: PerformanceService,
     private feedbackService: FeedbackService,
@@ -66,5 +68,21 @@ export class LandingpageComponent implements OnInit {
         clearInterval(interval);
       }
     }, 100); // Adjust the speed of animation by changing the interval time
+  }
+  navigateTo(page: string) {
+    this.router.navigate([`/${page}`]);
+  }
+
+  playGif(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = target.src.replace('.png', '.gif');
+  }
+
+  stopGif(event: Event) {
+    const target = event.target as HTMLImageElement;
+    // Ensure the GIF remains visible after hover
+    if (!target.src.endsWith('.gif')) {
+      target.src = target.src.replace('.png', '.gif');
+    }
   }
 }
